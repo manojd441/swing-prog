@@ -1,0 +1,144 @@
+package manoj;
+
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.sql.Statement;
+import javax.swing.*;
+
+import com.mysql.jdbc.ResultSet;
+
+
+public class LoginDemo implements ActionListener
+{
+	JFrame f;
+	JPanel p;
+	JLabel lab1,lab2,lab3;
+	JTextField t1,t2,t3;
+	JButton b1,b2;
+	
+	public LoginDemo() 
+	{
+		f = new JFrame("Student Form");
+		p = new JPanel();
+		p.setLayout(null);
+		
+		lab1 = new JLabel("Name");
+		lab1.setBounds(50, 60, 80, 20);
+		lab2 = new JLabel("usn");
+		lab2.setBounds(50, 100, 80, 20);
+		lab3 = new JLabel("marks");
+		lab3.setBounds(50, 140, 80, 20);
+		
+		
+		t1 = new JTextField();
+		t1.setBounds(130, 60, 80, 20);
+		t2 = new JTextField();
+		t2.setBounds(130, 100, 80, 20);
+		t3 = new JTextField();
+		t3.setBounds(130, 140, 80, 20);
+		
+		
+		b1 = new JButton("Submit");
+		b1.setBounds(90, 180, 80, 25);
+		b2 = new JButton("Reset");
+		b2.setBounds(180, 180, 80, 25);
+		
+		b1.addActionListener(this);
+		b2.addActionListener(this);
+		
+		p.add(lab1);
+		p.add(lab2);
+		p.add(lab3);
+		p.add(t1);
+		p.add(t2);
+		p.add(t3);
+		p.add(b1);
+		p.add(b2);
+		
+		f.add(p);
+		f.setSize(500, 500);
+		f.setVisible(true);
+	}
+
+	public static void main(String[] args)
+	{
+		new LoginDemo();
+	}
+
+
+	@Override
+	public void actionPerformed(ActionEvent e) 
+	{
+		
+		String name= t1.getText();
+		String usn= t2.getText();
+		String marks= t3.getText();
+		
+		if(e.getSource()==b1)
+		{
+		
+
+			try{
+				Class.forName("com.mysql.jdbc.Driver");  
+				Connection con=DriverManager.getConnection("jdbc:mysql://localhost:3306/abc","root",""); 
+			
+			
+			System.out.println("connected");
+			String sql = "insert into student values('"+name+"','"+usn+"','"+marks+"')";
+			Statement stmt = con.createStatement();
+			stmt.executeUpdate(sql);
+			
+			JOptionPane.showMessageDialog(null, "Inserted Successfull!!!");
+			
+			}
+			catch(Exception ex)
+			{
+				ex.printStackTrace();
+			}
+		}
+		
+		if(e.getSource()==b2)
+		{
+			t1.setText("");
+			t2.setText("");
+			t3.setText("");
+			/*try {
+				 Class.forName("com.mysql.jdbc.Driver"); 
+		         Connection con = DriverManager.getConnection("jdbc:mysql://localhost:/abc","root", "");
+		         
+		         Statement stmt = con.createStatement();
+		         ResultSet rs = (ResultSet) stmt.executeQuery("SELECT * FROM student");
+		         System.out.println("name  usn  marks");
+		         
+		         while (rs.next()) {
+		            
+		             name = rs.getString("name");
+		             usn = rs.getString("usn");
+		             marks = rs.getString("marks");
+		            System.out.println(name+"   "+usn+"    "+marks);
+		         }
+		      } catch(SQLException e1) {
+		         System.out.println("SQL exception occured" + e1);
+		      } catch (Exception e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			*/
+			
+		}
+	}}
+
+
+	
+
+
+
+	
+
+
+
+
+
